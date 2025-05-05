@@ -1,21 +1,12 @@
-import math
 def f(x,m,n):
     return (x + int(m))**2 -int(n) 
 
 def sieb_latex(n=11111,m=105,b=15,c=10):
     table = ""
-    # Listen erstellen
+    # # TODO Prim-Listen erstellen
     p = [2,3,5,7,9,11,13,17,19,23,29]
-    menge_prim_b = []
-    for prim in p:
-        if prim <= int(b):
-            menge_prim_b.append(prim)
-    sieb_intervall_c = []
-    c = int(c)
-    start = -c
-    end = c+1
-    for x in range(start,end):
-        sieb_intervall_c.append(x)
+    menge_prim_b = [prim for prim in p if prim <= int(b)]
+    sieb_intervall_c = [x for x in range(-int(c),int(c)+1)]
     funktionswerte = []
     # S-Werte
     table += "|$s$|"
@@ -36,11 +27,30 @@ def sieb_latex(n=11111,m=105,b=15,c=10):
     # Sieb mit XY
     for sieb_prim in menge_prim_b:
         table = "|Sieb mit $"+str(sieb_prim)+"$|"
+        # Test für die ersten p Elemente aus s um nicht Vielfache auszuschließen
+        start_initial = int(c)
+        end_initial = int(c)+sieb_prim
+        if end_initial >= len(funktionswerte):
+            end_initial = len(funktionswerte)-1
+        initial_list = funktionswerte[start_initial:end_initial]
+        teilbar = []
+        for s in initial_list:
+            if s % sieb_prim == 0:
+                teilbar.append(initial_list.index(s))
+        if teilbar == []:
+            table += "|"
+            for fs in funktionswerte:
+                table += "-|"
+            print("no case",table)
+            continue # goes back to loop head
         for fs in funktionswerte:
             add = "-|"
-            while fs % sieb_prim == 0:
-                add = "$"+str(int(fs / sieb_prim))+"$|"
-                fs = fs / sieb_prim
+            if (funktionswerte.index(fs)-int(c))%sieb_prim in teilbar:
+                while fs % sieb_prim == 0:
+                    add = "$"+str(int(fs / sieb_prim))+"$|"
+                    fs = fs / sieb_prim
+            else:
+                print("kein vielfaches der teiler bei ",(funktionswerte.index(fs)-int(c)))
             table += add
         print(table)
             
