@@ -42,12 +42,12 @@ def sieb_latex(n=11111,m=105,b=15,c=10):
                 table += "-|"
             print(table)
             continue # goes back to loop head
-        for fs in funktionswerte:
+        for i in range(len(funktionswerte)):
             add = "-|"
-            if (funktionswerte.index(fs)-int(c))%sieb_prim in teilbar:
-                while fs % sieb_prim == 0:
-                    add = "$"+str(int(fs / sieb_prim))+"$|"
-                    fs = fs / sieb_prim
+            if (i-int(c))%sieb_prim in teilbar:
+                while funktionswerte[i] % sieb_prim == 0:
+                    add = "$"+str(int(funktionswerte[i] / sieb_prim))+"$|"
+                    funktionswerte[i] = funktionswerte[i] / sieb_prim
             table += add
         print(table)
             
