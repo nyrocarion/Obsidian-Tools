@@ -10,9 +10,9 @@ def order_in_unit(n,a):
     counter = 1
     while res != 1 and counter <= len(unit):
         res = a**counter % n
-        print(f"|${counter}$|${a}^{counter}\equiv{res}\mod {n}$|")
+        print(f"|${counter}$|${a}^{counter}\\equiv{res}\\mod {n}$|")
         counter += 1
-    print("-> d.h. $\\text{ord}("+str(a)+")="+str(counter-1)+"$ in $\mathbb Z_{"+str(n)+"}^*$")
+    print("-> d.h. $\\text{ord}("+str(a)+")="+str(counter-1)+"$ in $\\mathbb Z_{"+str(n)+"}^*$")
 
 if __name__ == "__main__":
     n = input("Z_n^* with n=           ")
