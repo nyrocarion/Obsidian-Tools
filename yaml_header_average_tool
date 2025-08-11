@@ -1,0 +1,29 @@
+import pandas
+import re
+
+print("This is a little tool that reads your daily obsidian notes and helps you calculate an average for a key inside the yaml header. \nThe value has to be in minutes and the files have to be in  YYYY-MM-DD.md format \nOtherwise you need to modify the program.")
+print("NOTE: Run this inside the folder your daily notes are in!")
+start_date = input("Start Date (format:YYYY/MM/DD): ")
+end_date = input("End Date (format:YYYY/MM/DD): ")
+search_term = input("Obsidian Yaml Header key that should be checked: ")
+
+date_range = pandas.date_range(start=start_date,
+                               end=end_date,
+                               freq="D")
+time = 0
+days = 0
+
+for date in date_range:
+    filename = str(date)[:10]+".md"
+    current_file = open(filename, "r")
+    current_file_lines = current_file.readlines()
+    for line in current_file_lines:
+        if line.startswith(search_term):
+            res = int(re.search("[0-9]+",line)[0])
+            if res != 0:
+                time += res
+                days += 1
+
+daily_avg = int((time / days))
+
+print(f"Average daily time during of {search_term}  in {days} out of {len(date_range)} days was {int(daily_avg//60):2}h {int(daily_avg%60)}min")
